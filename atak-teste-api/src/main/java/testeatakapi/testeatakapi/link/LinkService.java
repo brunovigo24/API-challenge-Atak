@@ -21,7 +21,7 @@ public class LinkService {
         }
         try {
             // Solicitação HTTP para o Google Search
-            Document doc = Jsoup.connect("https://www.google.com/search?q=").get();
+            Document doc = Jsoup.connect("https://www.google.com/search?q=" + searchTerm).get();
 
             // Extração os elementos de link da página
             for (Element link : doc.select("a[href]")) {

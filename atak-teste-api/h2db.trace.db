@@ -1,6 +1,0 @@
-2024-03-23 23:51:38.066744-03:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Value too long for column "URL CHARACTER VARYING(255)": "'https://www.google.com/search?sca_esv=0d5b9d6e41891fca&q=Termo+de+pesquisa+de+o... (553)"; SQL statement:
-insert into link (title,url,id) values (?,?,?) [22001-224]
-2024-03-23 23:52:22.769691-03:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Value too long for column "URL CHARACTER VARYING(255)": "'https://www.google.com/search?sca_esv=0d5b9d6e41891fca&q=Termo+de+pesquisa+de+o... (553)"; SQL statement:
-insert into link (title,url,id) values (?,?,?) [22001-224]
