@@ -14,19 +14,22 @@ public class LinkService {
     private LinkRepository linkRepository;
 
     // Extrai títulos e URLs dos links do Google
-    public void extractLinksFromGoogle() {
+    public void extractLinksFromGoogle(String searchTerm) {
+        // Verifica se o termo de pesquisa está vazio
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            throw new RuntimeException("O termo de pesquisa não pode estar vazio");
+        }
         try {
             // Solicitação HTTP para o Google Search
-            Document doc = Jsoup.connect("https://www.google.com/search?q=termo_de_pesquisa").get();
+            Document doc = Jsoup.connect("https://www.google.com/search?q=").get();
 
             // Extração os elementos de link da página
             for (Element link : doc.select("a[href]")) {
-                String title = link.text(); // Extrair o título do link
-                String url = link.absUrl("href"); // Extrair a URL absoluta do link
+                String title = link.text(); // Extrai o título do link
+                String url = link.absUrl("href"); // Extrai  a URL absoluta do link
 
-                // Verificar se o título e a URL são válidos antes de salvar no banco de dados
+                // Verifica se o título e a URL são válidos antes de salvar no banco
                 if (!title.isEmpty() && !url.isEmpty()) {
-                    // Salvar os dados no banco de dados (você precisa criar a entidade Link para isso)
                     Link newLink = new Link();
                     newLink.setTitle(title);
                     newLink.setUrl(url);
@@ -35,8 +38,7 @@ public class LinkService {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            // Lidar com erros de conexão
-            // Por exemplo, você pode registrar o erro, enviar notificações, etc.
+            // Resgistro de  erros, grav em   log, próximo commit..
         }
     }
 
