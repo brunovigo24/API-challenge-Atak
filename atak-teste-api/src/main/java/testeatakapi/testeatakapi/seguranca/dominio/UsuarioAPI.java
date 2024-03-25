@@ -1,10 +1,10 @@
-package testeatakapi.testeatakapi.seguranca.api;
+package testeatakapi.testeatakapi.seguranca.dominio;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import testeatakapi.testeatakapi.seguranca.api.dtos.UsuarioView;
-import testeatakapi.testeatakapi.seguranca.dominio.UsuarioRepositorio;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequestMapping("/admin/usuarios")
@@ -14,7 +14,7 @@ public class UsuarioAPI {
     private UsuarioRepositorio usuarioRepositorio;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioView> findById(@PathVariable long id) {
+    public ResponseEntity<UsuarioView> findById(@PathVariable Integer id) {
         return usuarioRepositorio.findById(id)
                 .map(record -> new UsuarioView(record.getId(), record.getUsuario(), record.getPapel().name()))
                 .map(record -> ResponseEntity.ok(record))
@@ -22,7 +22,7 @@ public class UsuarioAPI {
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id) {
+    void delete(@PathVariable Integer id) {
         usuarioRepositorio.deleteById(id);
     }
 }

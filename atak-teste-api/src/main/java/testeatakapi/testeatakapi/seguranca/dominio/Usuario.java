@@ -5,17 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import testeatakapi.testeatakapi.helpers.EntityId;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
-
-    @Id
-    @GeneratedValue
-    private long id;
+public class Usuario extends EntityId  {
 
     @Column(nullable = false, unique = true)
     private String usuario;
