@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,11 +15,15 @@ public class LinkService {
     private LinkRepository linkRepository;
 
     // Extrai títulos e URLs dos links do Google
-    public void extractLinksFromGoogle(String searchTerm) {
+    public List<Link> extractLinksAndReturnList(String searchTerm) {
         // Verifica se o termo de pesquisa está vazio
         if (searchTerm == null || searchTerm.isEmpty()) {
             throw new RuntimeException("O termo de pesquisa não pode estar vazio");
         }
+
+        // Lista para armazenar os links extraídos
+        List<Link> extractedLinks = new ArrayList<>();
+
         try {
             // Solicitação HTTP para o Google Search
             Document doc = Jsoup.connect("https://www.google.com/search?q=" + searchTerm).get();
@@ -28,18 +33,21 @@ public class LinkService {
                 String title = link.text(); // Extrai o título do link
                 String url = link.absUrl("href"); // Extrai  a URL absoluta do link
 
-                // Verifica se o título e a URL são válidos antes de salvar no banco
+                // Verifica se o título e a URL são válidos antes de salvar na lista
                 if (!title.isEmpty() && !url.isEmpty()) {
                     Link newLink = new Link();
                     newLink.setTitle(title);
                     newLink.setUrl(url);
-                    saveLink(newLink);
+                    extractedLinks.add(newLink);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            // Resgistro de  erros, grav em   log, próximo commit..
+            // Registro de erros, gravar em log, próximo commit...
         }
+
+        // Retorna a lista de links extraídos
+        return extractedLinks;
     }
 
     // Salvar um link no banco de dados
