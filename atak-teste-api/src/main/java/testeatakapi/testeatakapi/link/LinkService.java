@@ -5,6 +5,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +17,12 @@ public class LinkService {
     private LinkRepository linkRepository;
 
     // Extrai títulos e URLs dos links do Google
-    public List<Link> extractLinksAndReturnList(String searchTerm) {
+    public List<LinkDTO> extractLinks(@RequestParam String searchTerm) {
+        List<LinkDTO> extractedLinks = new ArrayList<>();
         // Verifica se o termo de pesquisa está vazio
         if (searchTerm == null || searchTerm.isEmpty()) {
             throw new RuntimeException("O termo de pesquisa não pode estar vazio");
         }
-
-        // Lista para armazenar os links extraídos
-        List<Link> extractedLinks = new ArrayList<>();
-
         try {
             // Solicitação HTTP para o Google Search
             Document doc = Jsoup.connect("https://www.google.com/search?q=" + searchTerm).get();
@@ -35,7 +34,7 @@ public class LinkService {
 
                 // Verifica se o título e a URL são válidos antes de salvar na lista
                 if (!title.isEmpty() && !url.isEmpty()) {
-                    Link newLink = new Link();
+                    LinkDTO newLink = new LinkDTO();
                     newLink.setTitle(title);
                     newLink.setUrl(url);
                     extractedLinks.add(newLink);

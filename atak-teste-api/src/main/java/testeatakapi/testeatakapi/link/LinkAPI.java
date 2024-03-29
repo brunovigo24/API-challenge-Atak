@@ -26,10 +26,10 @@ public class LinkAPI {
      */
 
     @GetMapping("/extract-links")
-    public List<Link> extractLinks(@RequestParam String searchTerm) {
-        // Chama o novo método na classe de serviço para realizar a extração dos links e retornar a lista
-        return linkService.extractLinksAndReturnList(searchTerm);
+    public List<LinkDTO> extractLinks(@RequestParam String searchTerm) {
+        return linkService.extractLinks(searchTerm);
     }
+
     @GetMapping
     public List<Link> getAllLinks() {
         return linkService.getAllLinks();
