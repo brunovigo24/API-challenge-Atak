@@ -15,20 +15,14 @@ public class LinkAPI {
     public LinkAPI(LinkService linkService) {
         this.linkService = linkService;
     }
-
-    /*@GetMapping("/extract-links")
-    public void extractLinks(@RequestParam String searchTerm) {
-        linkService.extractLinksFromGoogle(searchTerm);
-    }
-    Envie uma solicitação GET para http://localhost:8080/api/links/extract-links?searchTerm=termo_de_pesquisa,
-    onde termo_de_pesquisa é o termo que você deseja pesquisar no Google.
-    Isso vai acionar o processo de extração de links do Google e os salvará no banco de dados.
-     */
-
     @GetMapping("/extract-links")
     public List<LinkDTO> extractLinks(@RequestParam String searchTerm) {
         return linkService.extractLinks(searchTerm);
     }
+    /*Envie uma solicitação GET para http://localhost:8080/api/links/extract-links?searchTerm=termo_de_pesquisa,
+    onde termo_de_pesquisa é o termo que deseja pesquisar no Google.
+    Isso vai acionar o processo de extração de links do Google e vai salvar no banco de dados.
+     */
 
     @GetMapping
     public List<Link> getAllLinks() {
